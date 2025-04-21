@@ -1,67 +1,74 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
-import { MaterialModule } from 'src/app/material.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-
-// table 1
-export interface productsData {
-  id: number;
-  imagePath: string;
-  uname: string;
-  budget: number;
-  priority: string;
-}
-
-const PRODUCT_DATA: productsData[] = [
-  {
-    id: 1,
-    imagePath: 'assets/images/products/product-1.png',
-    uname: 'iPhone 13 pro max-Pacific Blue-128GB storage',
-    budget: 180,
-    priority: 'confirmed',
-  },
-  {
-    id: 2,
-    imagePath: 'assets/images/products/product-2.png',
-    uname: 'Apple MacBook Pro 13 inch-M1-8/256GB-space',
-    budget: 90,
-    priority: 'cancelled',
-  },
-  {
-    id: 3,
-    imagePath: 'assets/images/products/product-3.png',
-    uname: 'PlayStation 5 DualSense Wireless Controller',
-    budget: 120,
-    priority: 'rejected',
-  },
-  {
-    id: 4,
-    imagePath: 'assets/images/products/product-4.png',
-    uname: 'Amazon Basics Mesh, Mid-Back, Swivel Office',
-    budget: 160,
-    priority: 'confirmed',
-  },
-];
+import { Employe } from 'src/app/models/employe.model';
+import { EmployeService } from 'src/app/services/Employe.service';
 
 @Component({
   selector: 'app-tables',
+  standalone: true,
   imports: [
-    MatTableModule,
     CommonModule,
     MatCardModule,
-    MaterialModule,
+    MatTableModule,
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
   ],
   templateUrl: './tables.component.html',
 })
-export class AppTablesComponent {
-  // table 1
-  displayedColumns1: string[] = ['assigned', 'name', 'priority', 'budget'];
-  dataSource1 = PRODUCT_DATA;
+export class AppTablesComponent implements OnInit {
+  displayedColumns1: string[] = ['avatar', 'name', 'adresse', 'telephone', 'profession'];
+  dataSource1: Employe[] = [];
+
+  // Liste fixe de couleurs pastel douces
+  private pastelColors = [
+    'rgb(239, 177, 255)',   // Violet doux
+    'rgb(165, 228, 255)',  // Bleu ciel
+    'rgb(255, 179, 195)',  // Rose tendre
+  ];
+
+  // Map des professions vers leurs couleurs
+  professionColorMap: { [professionName: string]: string } = {};
+  colorIndex = 0;
+
+  constructor(private employeService: EmployeService) {}
+
+  ngOnInit(): void {
+    this.getEmployes();
+  }
+
+  getEmployes(): void {
+    this.employeService.getEmployes().subscribe({
+      next: (data: Employe[]) => {
+        this.dataSource1 = data;
+
+        // À chaque profession unique, on associe une couleur
+        data.forEach(emp => {
+          const prof = emp.profession?.nom;
+          if (prof && !this.professionColorMap[prof]) {
+            this.professionColorMap[prof] = this.pastelColors[this.colorIndex % this.pastelColors.length];
+            this.colorIndex++;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des employés', err);
+      },
+    });
+  }
+
+  getInitials(firstname: string, lastname: string): string {
+    const firstInitial = firstname.charAt(0).toUpperCase();
+    const lastInitial = lastname.charAt(0).toUpperCase();
+    return `${firstInitial}${lastInitial}`;
+  }
+
+  getColorForProfession(professionName: string): string {
+    return this.professionColorMap[professionName] || '#ccc'; // Couleur par défaut au cas où
+  }
 }

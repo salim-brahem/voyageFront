@@ -21,3 +21,29 @@
 
 @use "pages/auth";
 @use "pages/dashboards";
+
+/* Styles pour l'avatar rond avec une couleur pastel claire */
+.avatar {
+    width: 50px;
+    height: 50px;
+    padding: 15px;
+    border-radius: 50%; /* Pour rendre l'avatar rond */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #eeeeee;  /* Couleur du texte (blanc pour contraster avec la couleur pastel) */
+    margin: 0 auto;
+    opacity: 90%;
+  }
+  
+  .avatar-text {
+    text-transform: uppercase; /* Mettre les initiales en majuscule */
+  }
+  
+  /* Styles pour une couleur pastel claire aléatoire */
+  .avatar {
+    background-color: #f8f0e3; /* Exemple de couleur pastel très claire (beige clair) */
+  }
+  

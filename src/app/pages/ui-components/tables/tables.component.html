@@ -1,96 +1,61 @@
 <mat-card class="cardWithShadow">
   <mat-card-content>
-    <mat-card-title>Table</mat-card-title>
+    <mat-card-title>Table des Employés</mat-card-title>
 
     <div class="table-responsive">
       <table mat-table [dataSource]="dataSource1" class="w-100">
-        <!-- Position Column -->
-        <ng-container matColumnDef="assigned">
+        <!-- Nouvelle colonne pour l'icône -->
+        <ng-container matColumnDef="avatar">
           <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
-            Product
+            Avatar
           </th>
           <td mat-cell *matCellDef="let element" class="p-l-0">
-            <div class="d-flex align-items-center">
-              <img [src]="element.imagePath" alt="users" width="60" class="rounded" />
-              <div class="m-l-16">
-                <h6 class="f-s-14 f-w-600">
-                  {{ element.uname }}
-                </h6>
-              </div>
+            <div class="avatar" [ngStyle]="{'background-color': getColorForProfession(element.profession.nom)}">
+              <span class="avatar-text">
+                {{ getInitials(element.firstname, element.lastname) }}
+              </span>
             </div>
           </td>
         </ng-container>
 
-        <!-- Name Column -->
+        <!-- Colonne des noms -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
-            Payment
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+            Nom
           </th>
-          <td mat-cell *matCellDef="let element">
-            @if(element.budget >= 160) {
-            <h6 class=" f-s-16 m-b-4">
-              <span class="text-dark f-w-600">${{ element.budget }} </span>/ 499
-            </h6>
-            <span class="f-s-14 f-w-500 d-block m-b-4">Full paid</span>
-            <mat-progress-bar mode="determinate" value="80" color="primary"></mat-progress-bar>
-            } @else if(element.budget > 119) {
-            <h6 class=" f-s-16 m-b-4">
-              <span class="text-dark f-w-600">${{ element.budget }} </span>/ 499
-            </h6>
-            <span class="f-s-14 f-w-500 d-block m-b-4">Partially paid</span>
-            <mat-progress-bar mode="determinate" class="mat-error" value="35" color="accent"></mat-progress-bar>
-            } @else if(element.budget < 100) { <h6 class=" f-s-16 m-b-4">
-              <span class="text-dark f-w-600">${{ element.budget }} </span>/ 499
+          <td mat-cell *matCellDef="let element" class="p-l-0">
+            <div class="d-flex align-items-center">
+              <h6 class="f-s-14 f-w-600">
+                {{ element.firstname }} {{ element.lastname }}
               </h6>
-              <span class="f-s-14 f-w-500 d-block m-b-4">Cancelled</span>
-              <mat-progress-bar mode="determinate" class="mat-warning" value="50" color="warn"></mat-progress-bar>
-              }
+            </div>
           </td>
         </ng-container>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="priority">
+        <ng-container matColumnDef="adresse">
           <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
-            Status
+            Adresse
           </th>
           <td mat-cell *matCellDef="let element">
-            @if(element.priority == 'cancelled') {
-            <span class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12">
-              {{ element.priority | titlecase }}
-            </span>
-            } @if(element.priority == 'rejected') {
-            <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
-              {{ element.priority | titlecase }}
-            </span>
-            } @if(element.priority == 'confirmed') {
-            <span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12">
-              {{ element.priority | titlecase }}
-            </span>
-            }
+            <span>{{ element.adresse }}</span>
           </td>
         </ng-container>
 
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="budget">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14"></th>
+        <ng-container matColumnDef="telephone">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
+            Téléphone
+          </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <mat-icon>add</mat-icon>
-                <span>Add</span>
-              </button>
-              <button mat-menu-item>
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </button>
-              <button mat-menu-item>
-                <mat-icon>delete</mat-icon>
-                <span>Delete</span>
-              </button>
-            </mat-menu>
+            <span>{{ element.telephone }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="profession">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
+            Profession
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.profession.nom }}</span>
           </td>
         </ng-container>
 
