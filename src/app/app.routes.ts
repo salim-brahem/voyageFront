@@ -18,12 +18,13 @@ export const routes: Routes = [
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
       },
       {
-        path: 'ui-components',
+        path: 'listes',
         loadChildren: () =>
-          import('./pages/ui-components/ui-components.routes').then(
-            (m) => m.UiComponentsRoutes
+          import('./pages/listes/listes.routes').then(
+            (m) => m.UiComponentsRoutes  // N'oublie pas de changer aussi les imports à l'intérieur du fichier de routes
           ),
-      },
+      }
+      
       
     ],
   },

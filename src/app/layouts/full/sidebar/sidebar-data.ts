@@ -21,7 +21,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Employés',
     iconName: 'solar:tablet-line-duotone',
-    route: '/ui-components/tables',
+    route: '/listes/employés',
   },
  
    

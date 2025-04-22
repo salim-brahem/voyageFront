@@ -19,4 +19,12 @@ export class EmployeService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.http.get<Employe[]>(this.baseUrl, { headers });
   }
+
+  getEmployeCount(): Observable<number> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
+    return this.http.get<number>(`${this.baseUrl}/count`, { headers });
+  }
+
+
 }

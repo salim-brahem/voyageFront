@@ -9,7 +9,7 @@ export const UiComponentsRoutes: Routes = [
     children: [
      
       {
-        path: 'tables',
+        path: 'employés',
         component: AppTablesComponent,
       },
     ],
