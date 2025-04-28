@@ -14,14 +14,14 @@ export const navItems: NavItem[] = [
   
 
   {
-    navCap: 'Ui Components',
+    navCap: 'Listes',
     divider: true
   },
  
   {
-    displayName: 'Tables',
+    displayName: 'Employés',
     iconName: 'solar:tablet-line-duotone',
-    route: '/ui-components/tables',
+    route: '/listes/employés',
   },
  
    

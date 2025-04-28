@@ -38,12 +38,12 @@ export interface totalincomeChart {
 }
 
 @Component({
-    selector: 'app-total-income',
+    selector: 'app-total-voyageurs',
     standalone: true,
     imports: [MaterialModule, NgApexchartsModule, MatButtonModule, TablerIconsModule],
-    templateUrl: './total-income.component.html',
+    templateUrl: './total-voyageurs.component.html',
 })
-export class AppTotalIncomeComponent {
+export class AppTotalvoyageursComponent {
     @ViewChild('chart') chart: ChartComponent = Object.create(null);
     public totalincomeChart!: Partial<totalincomeChart> | any;
 

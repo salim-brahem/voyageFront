@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-
-
 import { AppTablesComponent } from './tables/tables.component';
+
+
 
 export const UiComponentsRoutes: Routes = [
   {
@@ -9,7 +9,7 @@ export const UiComponentsRoutes: Routes = [
     children: [
      
       {
-        path: 'tables',
+        path: 'employés',
         component: AppTablesComponent,
       },
     ],

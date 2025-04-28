@@ -1,0 +1,67 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <mat-card-title>Table des Employés</mat-card-title>
+
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource1" class="w-100">
+        <!-- Nouvelle colonne pour l'icône -->
+        <ng-container matColumnDef="avatar">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+            Avatar
+          </th>
+          <td mat-cell *matCellDef="let element" class="p-l-0">
+            <div class="avatar" [ngStyle]="{'background-color': getColorForProfession(element.profession.nom)}">
+              <span class="avatar-text">
+                {{ getInitials(element.firstname, element.lastname) }}
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Colonne des noms -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+            Nom
+          </th>
+          <td mat-cell *matCellDef="let element" class="p-l-0">
+            <div class="d-flex align-items-center">
+              <h6 class="f-s-14 f-w-600">
+                {{ element.firstname }} {{ element.lastname }}
+              </h6>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="adresse">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
+            Adresse
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.adresse }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="telephone">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
+            Téléphone
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.telephone }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="profession">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
+            Profession
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.profession.nom }}</span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

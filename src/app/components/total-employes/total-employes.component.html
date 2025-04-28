@@ -1,0 +1,43 @@
+<mat-card class="shadow-none bg-light-error">
+  <mat-card-content>
+    <div class="d-flex justify-content-between align-items-center m-b-20 p-b-2">
+      <div class="d-flex align-items-center gap-12">
+        <div
+          class="bg-error rounded-circle-shape p-x-16 p-y-8 rounded-pill d-flex align-items-center justify-content-center"
+        >
+          <i
+            class="iconify f-s-24 text-white"
+            data-icon="solar:users-group-rounded-bold-duotone"
+          ></i>
+        </div>
+        <mat-card-title class="m-b-0 f-s-16 f-w-500 text-muted"
+          >Total Employés</mat-card-title
+        >
+      </div>
+      <div>
+        <button
+          class="custom-mdc-button d-block"
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+            <a href="javascript:void(0)"
+            class="d-flex align-items-center text-decoration-none p-y-10 p-x-16 gap-8"
+            [routerLink]="'/listes/employés'">
+            <span>View all</span>
+         </a>
+        </mat-menu>
+      </div>
+    </div>
+
+    <!-- Réduire la marge ici -->
+    <div class="row align-items-end justify-content-between">
+      <div class="col-12">
+        <h2 class="f-s-30 lh-lg m-b-70">{{ totalEmployes }}</h2>
+        <!-- Réduction de la marge en bas -->
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
