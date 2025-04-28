@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
+import { AuthService } from 'src/app/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-side-register',
@@ -16,16 +18,17 @@ import { MaterialModule } from 'src/app/material.module';
 export class AppSideRegisterComponent {
   options = this.settings.getOptions();
 
-  constructor(private settings: CoreService, private router: Router ,private fb: FormBuilder) {}
+  constructor(private settings: CoreService, private router: Router ,private fb: FormBuilder ,
+     private authService:AuthService ,  private snackBar: MatSnackBar) {}
 
   signupForm = this.fb.group({
-    name: ['', Validators.required],
+    username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
 
-  get name() {
-    return this.signupForm.get('name')!;
+  get username() {
+    return this.signupForm.get('username')!;
   }
 
   get email() {
@@ -38,9 +41,32 @@ export class AppSideRegisterComponent {
 
   onSubmit(): void {
     if (this.signupForm.valid) {
-      console.log('Signup data:', this.signupForm.value);
-      // Ici tu peux faire appel à un AuthService, enregistrer l'utilisateur, etc.
-    }
+      const registerData = this.signupForm.value as { username: string; email: string; password: string };
+
+        this.authService.registerEntreprise(registerData).subscribe({
+          next: (response) => {
+            console.log('Login successful:', response);
+  
+            localStorage.setItem('authToken', response.token);
+  
+            this.snackBar.open(response.message || 'Login Successful', 'Close', {
+              duration: 3000,
+              panelClass: ['success-snackbar']
+            });
+  
+            // Rediriger si besoin (ex: this.router.navigate(['/home']);
+          },
+          error: (error) => {
+            console.error('Login error:', error);
+  
+            // Afficher un toast d'erreur
+            this.snackBar.open(error.error?.error || 'Login Failed', 'Close', {
+              duration: 3000,
+              panelClass: ['error-snackbar']
+            });
+          }
+        });
+      }
   }
 
   

@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -15,14 +17,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-side-login',
-  imports: [RouterModule,   CommonModule , MaterialModule, FormsModule, ReactiveFormsModule
+  standalone: true,
+
+  imports: [RouterModule,   CommonModule , MaterialModule, FormsModule, ReactiveFormsModule , MatSnackBarModule,
   ],
   templateUrl: './side-login.component.html',
 })
 export class AppSideLoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder ,private authService : AuthService ,  private snackBar: MatSnackBar) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -39,8 +43,31 @@ export class AppSideLoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      console.log('Form Submitted:', this.loginForm.value);
-      // envoyer vers API ou faire autre traitement ici
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (response) => {
+          console.log('Login successful:', response);
+
+          localStorage.setItem('authToken', response.token);
+          console.log('Token enregistré:', localStorage.getItem('authToken'));
+
+
+          this.snackBar.open(response.message || 'Login Successful', 'Close', {
+            duration: 3000,
+            panelClass: ['success-snackbar']
+          });
+
+          // Rediriger si besoin (ex: this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error('Login error:', error);
+
+          // Afficher un toast d'erreur
+          this.snackBar.open(error.error?.error || 'Login Failed', 'Close', {
+            duration: 3000,
+            panelClass: ['error-snackbar']
+          });
+        }
+      });
     }
   }
 }
